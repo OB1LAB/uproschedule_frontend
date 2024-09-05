@@ -1,0 +1,18 @@
+.pickers {
+  display: flex;
+  gap: 20px;
+  .picker {
+    width: 200px;
+  }
+}
+
+@media (max-width: 550px) {
+  .pickers {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    .picker {
+      width: 100%;
+    }
+  }
+}

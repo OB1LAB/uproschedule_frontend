@@ -1,0 +1,59 @@
+.schedule {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  &.bot {
+    width: 1530px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.date {
+  font-weight: bold;
+}
+
+.time {
+  color: #a4a9b3;
+}
+
+.weekLessons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.content {
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  border: 1px solid #292d33;
+  background: #1a1d24;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.bot .content {
+  height: 100%;
+  width: 500px;
+}
+
+.lesson {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.lessonContent {
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  .border {
+    height: 100%;
+    width: 5px;
+  }
+}
