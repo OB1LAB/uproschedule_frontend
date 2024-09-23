@@ -42,7 +42,7 @@ const getLeftLessons = (lessons, weekLesson, lesson, weekName) => {
   if (lesson.type === "Лабораторная работа") {
     return parseInt((count / 2 + 0.5).toString());
   }
-  return count;
+  return count - 1;
 };
 
 const Schedule = () => {
