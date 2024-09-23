@@ -26,6 +26,9 @@ const getLeftLessons = (lessons, weekLesson, lesson, weekName) => {
             ((i === weekLesson &&
               item === weekName &&
               Number(currentLesson.number) >= Number(lesson.number)) ||
+              (i === weekLesson &&
+                week.findIndex((listWeek) => listWeek === item) >
+                  week.findIndex((listWeek) => listWeek === weeksName)) ||
               i > weekLesson) &&
             currentLesson.name === lesson.name &&
             currentLesson.type === lesson.type &&
