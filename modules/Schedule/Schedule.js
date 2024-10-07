@@ -25,10 +25,10 @@ const getLeftLessons = (lessons, weekLesson, lesson, weekName) => {
           if (
             ((i === weekLesson &&
               item === weekName &&
-              Number(currentLesson.number) >= Number(lesson.number)) ||
+              Number(currentLesson.number) > Number(lesson.number)) ||
               (i === weekLesson &&
                 week.findIndex((listWeek) => listWeek === item) >
-                  week.findIndex((listWeek) => listWeek === weeksName)) ||
+                  week.findIndex((listWeek) => listWeek === weekName)) ||
               i > weekLesson) &&
             currentLesson.name === lesson.name &&
             currentLesson.type === lesson.type &&
@@ -77,7 +77,7 @@ const Schedule = () => {
             ? schedule[selectedGroup][selectedWeek][item].length > 0
             : false,
         )
-        .map((item, itemIndex) => {
+        .map((item) => {
           return (
             <div key={item} className={styles.weekLessons}>
               <div className={styles.date}>
@@ -85,7 +85,10 @@ const Schedule = () => {
                 {moment("2024-09-02")
                   .add(selectedWeek - 1, "weeks")
                   .startOf("isoWeek")
-                  .add(itemIndex, "days")
+                  .add(
+                    week.findIndex((itemWeek) => itemWeek === item),
+                    "days",
+                  )
                   .format("DD-MM-YYYY")}
               </div>
               <div className={styles.content}>
