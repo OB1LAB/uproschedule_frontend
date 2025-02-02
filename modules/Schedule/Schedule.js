@@ -1,6 +1,6 @@
 "use client";
 import useScheduleStore from "@/modules/Schedule/useScheduleStore";
-import { colors, week } from "@/consts";
+import { colors, timesLessons, week } from "@/consts";
 import styles from "./Schedule.module.scss";
 import moment from "moment-timezone";
 import { useSearchParams } from "next/navigation";
@@ -72,12 +72,64 @@ const Schedule = () => {
       className={`${styles.schedule} ${searchSelectedWeek && searchSelectedGroup ? styles.bot : ""}`}
     >
       {week
-        .filter((item) =>
-          schedule[selectedGroup][selectedWeek][item]
-            ? schedule[selectedGroup][selectedWeek][item].length > 0
-            : false,
+        .filter(
+          (item) =>
+            !(
+              week.findIndex((itemWeek) => itemWeek === item) === 5 &&
+              (!schedule[selectedGroup][selectedWeek][item] ||
+                schedule[selectedGroup][selectedWeek][item].length === 0)
+            ),
         )
         .map((item) => {
+          if (
+            !schedule[selectedGroup][selectedWeek][item] ||
+            schedule[selectedGroup][selectedWeek][item].length === 0
+          ) {
+            return (
+              <div key={item} className={styles.weekLessons}>
+                <div className={styles.date}>
+                  {item}{" "}
+                  {moment("2024-09-02")
+                    .add(selectedWeek - 1, "weeks")
+                    .startOf("isoWeek")
+                    .add(
+                      week.findIndex((itemWeek) => itemWeek === item),
+                      "days",
+                    )
+                    .format("DD-MM-YYYY")}
+                </div>
+                <div className={styles.content}>
+                  <div className={styles.lesson}>
+                    <div
+                      className={styles.time}
+                      style={{ textAlign: "center", padding: "15px 0 0 0" }}
+                    >
+                      Пар нет
+                    </div>
+                    <div className={styles.lessonContent}>
+                      <div
+                        className={styles.border}
+                        style={{ background: "yellow" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+          const lessonsNumber = [];
+          const maxLessonNumber = Math.max(
+            ...schedule[selectedGroup][selectedWeek][item].map((itemLesson) => {
+              return Number(itemLesson.number);
+            }),
+          );
+          for (
+            let lessonNumber = 1;
+            lessonNumber <= maxLessonNumber;
+            lessonNumber++
+          ) {
+            lessonsNumber.push(lessonNumber);
+          }
           return (
             <div key={item} className={styles.weekLessons}>
               <div className={styles.date}>
@@ -92,16 +144,19 @@ const Schedule = () => {
                   .format("DD-MM-YYYY")}
               </div>
               <div className={styles.content}>
-                {schedule[selectedGroup][selectedWeek][item].map(
-                  (lesson, lessonIndex) => {
+                {lessonsNumber.map((itemFind, itemIndex) => {
+                  const foundedLesson = schedule[selectedGroup][selectedWeek][
+                    item
+                  ].find((item) => Number(item.number) === itemFind);
+                  if (foundedLesson) {
                     return (
-                      <div key={lessonIndex} className={styles.lesson}>
+                      <div key={itemIndex} className={styles.lesson}>
                         <div className={styles.time}>
-                          {lesson.time} ({lesson.type}. Осталось:{" "}
+                          {foundedLesson.time} ({foundedLesson.type}. Осталось:{" "}
                           {getLeftLessons(
                             schedule[selectedGroup],
                             selectedWeek,
-                            lesson,
+                            foundedLesson,
                             item,
                           )}
                           )
@@ -109,24 +164,40 @@ const Schedule = () => {
                         <div className={styles.lessonContent}>
                           <div
                             className={styles.border}
-                            style={{ background: colors[lesson.type] }}
+                            style={{ background: colors[foundedLesson.type] }}
                           />
                           <div>
                             <div>
-                              {lesson.number}. {lesson.name}
+                              {foundedLesson.number}. {foundedLesson.name}
                             </div>
-                            <div>{lesson.pos}</div>
+                            <div>{foundedLesson.pos}</div>
                             <div>
-                              {lesson.teacher === ""
+                              {foundedLesson.teacher === ""
                                 ? "Преподаватель не найден"
-                                : lesson.teacher}
+                                : foundedLesson.teacher}
                             </div>
                           </div>
                         </div>
                       </div>
                     );
-                  },
-                )}
+                  }
+                  return (
+                    <div key={itemIndex} className={styles.lesson}>
+                      <div className={styles.time}>
+                        {timesLessons[itemFind]}
+                      </div>
+                      <div className={styles.lessonContent}>
+                        <div
+                          className={styles.border}
+                          style={{ background: colors.window }}
+                        />
+                        <div>
+                          <div>{itemFind}. Окно</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );
