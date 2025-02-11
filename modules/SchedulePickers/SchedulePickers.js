@@ -1,6 +1,6 @@
 "use client";
 import styles from "./SchedulePickers.module.scss";
-import { SelectPicker } from "rsuite";
+import { Button, SelectPicker } from "rsuite";
 import useScheduleStore from "@/modules/Schedule/useScheduleStore";
 import moment from "moment-timezone";
 import { groups } from "@/consts";
@@ -14,8 +14,40 @@ const SchedulePickers = () => {
     store.selectedWeek,
     store.setSelectedWeek,
   ]);
+  const nextWeek = () => {
+    const selectedWeekIndex = Object.keys(schedule[selectedGroup]).indexOf(
+      selectedWeek,
+    );
+    if (selectedWeekIndex < Object.keys(schedule[selectedGroup]).length - 1) {
+      setSelectedWeek(
+        Object.keys(schedule[selectedGroup])[selectedWeekIndex + 1],
+      );
+    }
+  };
+  const preventWeek = () => {
+    const selectedWeekIndex = Object.keys(schedule[selectedGroup]).indexOf(
+      selectedWeek,
+    );
+    if (selectedWeekIndex > 0) {
+      setSelectedWeek(
+        Object.keys(schedule[selectedGroup])[selectedWeekIndex - 1],
+      );
+    }
+  };
   return (
     <div className={styles.pickers}>
+      <div className={styles.desktop}>
+        <Button
+          style={{ marginRight: "-10px" }}
+          appearance="primary"
+          onClick={preventWeek}
+          disabled={
+            Object.keys(schedule[selectedGroup]).indexOf(selectedWeek) === 0
+          }
+        >
+          {"<-"}
+        </Button>
+      </div>
       <SelectPicker
         className={styles.picker}
         cleanable={false}
@@ -52,6 +84,41 @@ const SchedulePickers = () => {
         value={selectedWeek}
         onChange={setSelectedWeek}
       />
+      <div className={styles.desktop}>
+        <Button
+          style={{ marginLeft: "-10px" }}
+          onClick={nextWeek}
+          appearance="primary"
+          disabled={
+            Object.keys(schedule[selectedGroup]).indexOf(selectedWeek) ===
+            Object.keys(schedule[selectedGroup]).length - 1
+          }
+        >
+          {"->"}
+        </Button>
+      </div>
+      <div className={styles.mobile}>
+        <Button
+          appearance="primary"
+          onClick={preventWeek}
+          disabled={
+            Object.keys(schedule[selectedGroup]).indexOf(selectedWeek) === 0
+          }
+        >
+          Предыдущая неделя
+        </Button>
+        <Button
+          style={{ marginLeft: "-10px" }}
+          onClick={nextWeek}
+          appearance="primary"
+          disabled={
+            Object.keys(schedule[selectedGroup]).indexOf(selectedWeek) ===
+            Object.keys(schedule[selectedGroup]).length - 1
+          }
+        >
+          Следующая неделя
+        </Button>
+      </div>
     </div>
   );
 };

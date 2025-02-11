@@ -5,6 +5,7 @@ import styles from "./Schedule.module.scss";
 import moment from "moment-timezone";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { Tooltip, Whisper } from "rsuite";
 
 const getLeftLessons = (lessons, weekLesson, lesson, weekName) => {
   let count = 0;
@@ -58,11 +59,44 @@ const Schedule = () => {
   ]);
   const searchSelectedGroup = searchParams.get("selectedGroup");
   const searchSelectedWeek = searchParams.get("selectedWeek");
+  const getTimeToLesson = (date, time) => {
+    const lessonDatetime = moment(`${date} ${time}`, "DD-MM-YYYY HH:mm");
+    const nowDatetime = moment();
+    const hoursOffset = (60 - nowDatetime.utcOffset()) / 60;
+    let diffHours = lessonDatetime.diff(nowDatetime, "hours");
+    diffHours += hoursOffset;
+    let diffMinutes = Math.abs(
+      lessonDatetime.diff(nowDatetime, "minutes") % 60,
+    );
+    let diffSeconds = Math.abs(
+      lessonDatetime.diff(nowDatetime, "seconds") % 60,
+    );
+    if (String(Math.abs(diffHours)).length === 1) {
+      if (diffHours >= 0) {
+        diffHours = `0${String(Math.abs(diffHours))}`;
+      } else {
+        diffHours = `-0${String(Math.abs(diffHours))}`;
+      }
+    }
+    if (String(Math.abs(diffMinutes)).length === 1) {
+      diffMinutes = `0${diffMinutes}`;
+    }
+    if (String(Math.abs(diffSeconds)).length === 1) {
+      diffSeconds = `0${diffSeconds}`;
+    }
+    return `${diffHours}:${diffMinutes}:${diffSeconds}`;
+  };
   useEffect(() => {
     if (searchSelectedWeek && searchSelectedGroup) {
       setSelectedGroup(searchSelectedGroup);
       setSelectedWeek(searchSelectedWeek);
     }
+  }, []);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSelectedWeek(selectedWeek);
+    }, 500);
+    return () => clearInterval(intervalId);
   }, []);
   if (!Object.keys(schedule[selectedGroup]).includes(selectedWeek)) {
     return <div>Расписание за указанную неделю не найдено</div>;
@@ -130,18 +164,18 @@ const Schedule = () => {
           ) {
             lessonsNumber.push(lessonNumber);
           }
+          const stringDate = moment("2024-09-02")
+            .add(selectedWeek - 1, "weeks")
+            .startOf("isoWeek")
+            .add(
+              week.findIndex((itemWeek) => itemWeek === item),
+              "days",
+            )
+            .format("DD-MM-YYYY");
           return (
             <div key={item} className={styles.weekLessons}>
               <div className={styles.date}>
-                {item}{" "}
-                {moment("2024-09-02")
-                  .add(selectedWeek - 1, "weeks")
-                  .startOf("isoWeek")
-                  .add(
-                    week.findIndex((itemWeek) => itemWeek === item),
-                    "days",
-                  )
-                  .format("DD-MM-YYYY")}
+                {item} {stringDate}
               </div>
               <div className={styles.content}>
                 {lessonsNumber.map((itemFind, itemIndex) => {
@@ -149,10 +183,36 @@ const Schedule = () => {
                     item
                   ].find((item) => Number(item.number) === itemFind);
                   if (foundedLesson) {
+                    const [time1, time2] = foundedLesson.time.split("-");
                     return (
                       <div key={itemIndex} className={styles.lesson}>
                         <div className={styles.time}>
-                          {foundedLesson.time} ({foundedLesson.type}. Осталось:{" "}
+                          <Whisper
+                            followCursor
+                            speaker={
+                              <Tooltip>
+                                {getTimeToLesson(stringDate, time1)}
+                              </Tooltip>
+                            }
+                            trigger={"hover"}
+                            placement="top"
+                          >
+                            {time1}
+                          </Whisper>
+                          -
+                          <Whisper
+                            followCursor
+                            speaker={
+                              <Tooltip>
+                                {getTimeToLesson(stringDate, time2)}
+                              </Tooltip>
+                            }
+                            trigger={"hover"}
+                            placement="top"
+                          >
+                            {time2}
+                          </Whisper>{" "}
+                          ({foundedLesson.type}. Осталось:{" "}
                           {getLeftLessons(
                             schedule[selectedGroup],
                             selectedWeek,
@@ -181,10 +241,35 @@ const Schedule = () => {
                       </div>
                     );
                   }
+                  const [time1, time2] = timesLessons[itemFind].split("-");
                   return (
                     <div key={itemIndex} className={styles.lesson}>
                       <div className={styles.time}>
-                        {timesLessons[itemFind]}
+                        <Whisper
+                          followCursor
+                          speaker={
+                            <Tooltip>
+                              {getTimeToLesson(stringDate, time1)}
+                            </Tooltip>
+                          }
+                          trigger={"hover"}
+                          placement="top"
+                        >
+                          {time1}
+                        </Whisper>
+                        -
+                        <Whisper
+                          followCursor
+                          speaker={
+                            <Tooltip>
+                              {getTimeToLesson(stringDate, time2)}
+                            </Tooltip>
+                          }
+                          trigger={"hover"}
+                          placement="top"
+                        >
+                          {time2}
+                        </Whisper>{" "}
                       </div>
                       <div className={styles.lessonContent}>
                         <div

@@ -1,3 +1,11 @@
+.desktop {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
 .pickers {
   display: flex;
   gap: 20px;
@@ -7,6 +15,17 @@
 }
 
 @media (max-width: 550px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+    justify-content: space-between;
+    button {
+      width: 47%;
+    }
+  }
   .pickers {
     width: 100%;
     flex-direction: column;
