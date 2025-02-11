@@ -61,10 +61,10 @@ const Schedule = () => {
   const searchSelectedWeek = searchParams.get("selectedWeek");
   const getTimeToLesson = (date, time) => {
     const lessonDatetime = moment(`${date} ${time}`, "DD-MM-YYYY HH:mm");
-    const nowDatetime = moment();
+    let nowDatetime = moment();
     const hoursOffset = (60 - nowDatetime.utcOffset()) / 60;
+    nowDatetime = nowDatetime.add(-hoursOffset, "hour");
     let diffHours = lessonDatetime.diff(nowDatetime, "hours");
-    diffHours += hoursOffset;
     let diffMinutes = Math.abs(
       lessonDatetime.diff(nowDatetime, "minutes") % 60,
     );
@@ -194,7 +194,7 @@ const Schedule = () => {
                                 {getTimeToLesson(stringDate, time1)}
                               </Tooltip>
                             }
-                            trigger={"hover"}
+                            trigger={"click"}
                             placement="top"
                           >
                             {time1}
@@ -207,7 +207,7 @@ const Schedule = () => {
                                 {getTimeToLesson(stringDate, time2)}
                               </Tooltip>
                             }
-                            trigger={"hover"}
+                            trigger={"click"}
                             placement="top"
                           >
                             {time2}
@@ -252,7 +252,7 @@ const Schedule = () => {
                               {getTimeToLesson(stringDate, time1)}
                             </Tooltip>
                           }
-                          trigger={"hover"}
+                          trigger={"click"}
                           placement="top"
                         >
                           {time1}
@@ -265,7 +265,7 @@ const Schedule = () => {
                               {getTimeToLesson(stringDate, time2)}
                             </Tooltip>
                           }
-                          trigger={"hover"}
+                          trigger={"click"}
                           placement="top"
                         >
                           {time2}
