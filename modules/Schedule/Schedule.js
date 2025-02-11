@@ -61,9 +61,7 @@ const Schedule = () => {
   const searchSelectedWeek = searchParams.get("selectedWeek");
   const getTimeToLesson = (date, time) => {
     const lessonDatetime = moment(`${date} ${time}`, "DD-MM-YYYY HH:mm");
-    let nowDatetime = moment();
-    const hoursOffset = (60 - nowDatetime.utcOffset()) / 60;
-    nowDatetime = nowDatetime.add(-hoursOffset, "hour");
+    const nowDatetime = moment();
     let diffHours = lessonDatetime.diff(nowDatetime, "hours");
     let diffMinutes = Math.abs(
       lessonDatetime.diff(nowDatetime, "minutes") % 60,
