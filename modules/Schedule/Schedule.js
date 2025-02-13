@@ -93,9 +93,9 @@ const Schedule = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setSelectedWeek(selectedWeek);
-    }, 500);
+    }, 1000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [selectedGroup, selectedWeek]);
   if (!Object.keys(schedule[selectedGroup]).includes(selectedWeek)) {
     return <div>Расписание за указанную неделю не найдено</div>;
   }
@@ -186,7 +186,6 @@ const Schedule = () => {
                       <div key={itemIndex} className={styles.lesson}>
                         <div className={styles.time}>
                           <Whisper
-                            followCursor
                             speaker={
                               <Tooltip>
                                 {getTimeToLesson(stringDate, time1)}
@@ -199,7 +198,6 @@ const Schedule = () => {
                           </Whisper>
                           -
                           <Whisper
-                            followCursor
                             speaker={
                               <Tooltip>
                                 {getTimeToLesson(stringDate, time2)}
@@ -244,7 +242,6 @@ const Schedule = () => {
                     <div key={itemIndex} className={styles.lesson}>
                       <div className={styles.time}>
                         <Whisper
-                          followCursor
                           speaker={
                             <Tooltip>
                               {getTimeToLesson(stringDate, time1)}
@@ -257,7 +254,6 @@ const Schedule = () => {
                         </Whisper>
                         -
                         <Whisper
-                          followCursor
                           speaker={
                             <Tooltip>
                               {getTimeToLesson(stringDate, time2)}
