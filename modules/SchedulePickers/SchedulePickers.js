@@ -3,7 +3,10 @@ import styles from "./SchedulePickers.module.scss";
 import { Button, SelectPicker } from "rsuite";
 import useScheduleStore from "@/modules/Schedule/useScheduleStore";
 import moment from "moment-timezone";
+import ArrowRightLine from "@rsuite/icons/legacy/ArrowRightLine";
+import ArrowLeftLine from "@rsuite/icons/legacy/ArrowLeftLine";
 import { groups } from "@/consts";
+
 const SchedulePickers = () => {
   const schedule = useScheduleStore((store) => store.schedule);
   const [selectedGroup, setSelectedGroup] = useScheduleStore((store) => [
@@ -38,14 +41,14 @@ const SchedulePickers = () => {
     <div className={styles.pickers}>
       <div className={styles.desktop}>
         <Button
-          style={{ marginRight: "-10px" }}
+          style={{ marginRight: "-10px", height: "100%" }}
           appearance="primary"
           onClick={preventWeek}
           disabled={
             Object.keys(schedule[selectedGroup]).indexOf(selectedWeek) === 0
           }
         >
-          {"<-"}
+          <ArrowLeftLine />
         </Button>
       </div>
       <SelectPicker
@@ -86,7 +89,7 @@ const SchedulePickers = () => {
       />
       <div className={styles.desktop}>
         <Button
-          style={{ marginLeft: "-10px" }}
+          style={{ marginLeft: "-10px", height: "100%" }}
           onClick={nextWeek}
           appearance="primary"
           disabled={
@@ -94,7 +97,7 @@ const SchedulePickers = () => {
             Object.keys(schedule[selectedGroup]).length - 1
           }
         >
-          {"->"}
+          <ArrowRightLine />
         </Button>
       </div>
       <div className={styles.mobile}>

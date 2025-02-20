@@ -70,7 +70,7 @@ const Schedule = () => {
       lessonDatetime.diff(nowDatetime, "seconds") % 60,
     );
     if (String(Math.abs(diffHours)).length === 1) {
-      if (diffHours >= 0) {
+      if (lessonDatetime >= nowDatetime) {
         diffHours = `0${String(Math.abs(diffHours))}`;
       } else {
         diffHours = `-0${String(Math.abs(diffHours))}`;
