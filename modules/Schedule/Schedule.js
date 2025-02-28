@@ -177,64 +177,73 @@ const Schedule = () => {
               </div>
               <div className={styles.content}>
                 {lessonsNumber.map((itemFind, itemIndex) => {
-                  const foundedLesson = schedule[selectedGroup][selectedWeek][
+                  const foundedLessons = schedule[selectedGroup][selectedWeek][
                     item
-                  ].find((item) => Number(item.number) === itemFind);
-                  if (foundedLesson) {
-                    const [time1, time2] = foundedLesson.time.split("-");
-                    return (
-                      <div key={itemIndex} className={styles.lesson}>
-                        <div className={styles.time}>
-                          <Whisper
-                            speaker={
-                              <Tooltip>
-                                {getTimeToLesson(stringDate, time1)}
-                              </Tooltip>
-                            }
-                            trigger={"click"}
-                            placement="top"
-                          >
-                            {time1}
-                          </Whisper>
-                          -
-                          <Whisper
-                            speaker={
-                              <Tooltip>
-                                {getTimeToLesson(stringDate, time2)}
-                              </Tooltip>
-                            }
-                            trigger={"click"}
-                            placement="top"
-                          >
-                            {time2}
-                          </Whisper>{" "}
-                          ({foundedLesson.type}. Осталось:{" "}
-                          {getLeftLessons(
-                            schedule[selectedGroup],
-                            selectedWeek,
-                            foundedLesson,
-                            item,
-                          )}
-                          )
-                        </div>
-                        <div className={styles.lessonContent}>
+                  ].filter((item) => Number(item.number) === itemFind);
+                  if (foundedLessons.length > 0) {
+                    return foundedLessons.map(
+                      (foundedLesson, foundedLessonIndex) => {
+                        const [time1, time2] = foundedLesson.time.split("-");
+                        return (
                           <div
-                            className={styles.border}
-                            style={{ background: colors[foundedLesson.type] }}
-                          />
-                          <div>
-                            <div>
-                              {foundedLesson.number}. {foundedLesson.name}
+                            key={foundedLessonIndex}
+                            className={styles.lesson}
+                          >
+                            <div className={styles.time}>
+                              <Whisper
+                                speaker={
+                                  <Tooltip>
+                                    {getTimeToLesson(stringDate, time1)}
+                                  </Tooltip>
+                                }
+                                trigger={"click"}
+                                placement="top"
+                              >
+                                {time1}
+                              </Whisper>
+                              -
+                              <Whisper
+                                speaker={
+                                  <Tooltip>
+                                    {getTimeToLesson(stringDate, time2)}
+                                  </Tooltip>
+                                }
+                                trigger={"click"}
+                                placement="top"
+                              >
+                                {time2}
+                              </Whisper>{" "}
+                              ({foundedLesson.type}. Осталось:{" "}
+                              {getLeftLessons(
+                                schedule[selectedGroup],
+                                selectedWeek,
+                                foundedLesson,
+                                item,
+                              )}
+                              )
                             </div>
-                            <div>{foundedLesson.pos}</div>
-                            <div>
-                              {foundedLesson.teacher === ""
-                                ? "Преподаватель не найден"
-                                : foundedLesson.teacher}
+                            <div className={styles.lessonContent}>
+                              <div
+                                className={styles.border}
+                                style={{
+                                  background: colors[foundedLesson.type],
+                                }}
+                              />
+                              <div>
+                                <div>
+                                  {foundedLesson.number}. {foundedLesson.name}
+                                </div>
+                                <div>{foundedLesson.pos}</div>
+                                <div>
+                                  {foundedLesson.teacher === ""
+                                    ? "Преподаватель не найден"
+                                    : foundedLesson.teacher}
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        );
+                      },
                     );
                   }
                   const [time1, time2] = timesLessons[itemFind].split("-");
