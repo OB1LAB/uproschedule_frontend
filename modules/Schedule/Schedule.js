@@ -91,6 +91,10 @@ const Schedule = () => {
     }
   }, []);
   useEffect(() => {
+    const currentWeeks = Object.keys(schedule[selectedGroup]);
+    if (!currentWeeks.includes(selectedWeek) && currentWeeks.length > 0) {
+      setSelectedWeek(currentWeeks[currentWeeks.length - 1]);
+    }
     const intervalId = setInterval(() => {
       setSelectedWeek(selectedWeek);
     }, 1000);
