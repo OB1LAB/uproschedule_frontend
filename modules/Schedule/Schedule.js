@@ -217,13 +217,16 @@ const Schedule = () => {
                               >
                                 {time2}
                               </Whisper>{" "}
-                              ({foundedLesson.type}. Осталось:{" "}
-                              {getLeftLessons(
+                              ({foundedLesson.type}
+                              {selectedGroup.length >= 3
+                                ? ` . Осталось:
+                              ${getLeftLessons(
                                 schedule[selectedGroup],
                                 selectedWeek,
                                 foundedLesson,
                                 item,
-                              )}
+                              )}`
+                                : ""}
                               )
                             </div>
                             <div className={styles.lessonContent}>
