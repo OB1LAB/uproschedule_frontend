@@ -136,7 +136,7 @@ const Schedule = () => {
                       className={styles.time}
                       style={{ textAlign: "center", padding: "15px 0 0 0" }}
                     >
-                      Пар нет
+                      {selectedGroup.length < 3 ? "Расписания нет" : "Пар нет"}
                     </div>
                     <div className={styles.lessonContent}>
                       <div

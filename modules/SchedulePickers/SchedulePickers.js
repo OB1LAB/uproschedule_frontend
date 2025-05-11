@@ -57,7 +57,7 @@ const SchedulePickers = () => {
         searchable={false}
         data={groups.map((item) => {
           return {
-            label: `${item}Б`,
+            label: item.length < 3 ? item : `${item}Б`,
             value: item,
           };
         })}
