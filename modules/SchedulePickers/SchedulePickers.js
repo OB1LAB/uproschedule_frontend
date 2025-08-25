@@ -37,6 +37,12 @@ const SchedulePickers = () => {
       );
     }
   };
+
+  if (!Object.keys(schedule).includes(selectedGroup)) {
+    setSelectedGroup("301");
+    return <div></div>;
+  }
+
   return (
     <div className={styles.pickers}>
       <div className={styles.desktop}>

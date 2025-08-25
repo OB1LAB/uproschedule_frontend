@@ -92,7 +92,7 @@ const Schedule = () => {
   }, []);
   useEffect(() => {
     if (!Object.keys(schedule).includes(selectedGroup)) {
-      setSelectedGroup("301");
+      return;
     }
     const currentWeeks = Object.keys(schedule[selectedGroup]);
     if (!currentWeeks.includes(selectedWeek) && currentWeeks.length > 0) {
@@ -103,7 +103,10 @@ const Schedule = () => {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [selectedGroup, selectedWeek]);
-  if (!Object.keys(schedule[selectedGroup]).includes(selectedWeek)) {
+  if (
+    !Object.keys(schedule).includes(selectedGroup) ||
+    !Object.keys(schedule[selectedGroup]).includes(selectedWeek)
+  ) {
     return <div>Расписание за указанную неделю не найдено</div>;
   }
   return (
