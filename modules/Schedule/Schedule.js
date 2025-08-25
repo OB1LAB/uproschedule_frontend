@@ -91,6 +91,9 @@ const Schedule = () => {
     }
   }, []);
   useEffect(() => {
+    if (!Object.keys(schedule).includes(selectedGroup)) {
+      setSelectedGroup("301");
+    }
     const currentWeeks = Object.keys(schedule[selectedGroup]);
     if (!currentWeeks.includes(selectedWeek) && currentWeeks.length > 0) {
       setSelectedWeek(currentWeeks[currentWeeks.length - 1]);
