@@ -131,7 +131,7 @@ const Schedule = () => {
               <div key={item} className={styles.weekLessons}>
                 <div className={styles.date}>
                   {item}{" "}
-                  {moment("2024-09-02")
+                  {moment("2025-09-01")
                     .add(selectedWeek - 1, "weeks")
                     .startOf("isoWeek")
                     .add(
@@ -172,7 +172,7 @@ const Schedule = () => {
           ) {
             lessonsNumber.push(lessonNumber);
           }
-          const stringDate = moment("2024-09-02")
+          const stringDate = moment("2025-09-01")
             .add(selectedWeek - 1, "weeks")
             .startOf("isoWeek")
             .add(

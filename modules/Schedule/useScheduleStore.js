@@ -9,7 +9,7 @@ const useScheduleStore = create(
     (set, get) => ({
       selectedGroup: "301",
       selectedWeek: (
-        moment().diff(moment("2024-09-02"), "weeks") + 1
+        moment().diff(moment("2025-09-01"), "weeks") + 1
       ).toString(),
       schedule: {},
       setSelectedGroup: (selectedGroup) => {
