@@ -225,7 +225,7 @@ const Schedule = () => {
                               </Whisper>{" "}
                               ({foundedLesson.type}
                               {selectedGroup.length >= 3
-                                ? ` . Осталось:
+                                ? `. Осталось:
                               ${getLeftLessons(
                                 schedule[selectedGroup],
                                 selectedWeek,
@@ -244,7 +244,10 @@ const Schedule = () => {
                               />
                               <div>
                                 <div>
-                                  {foundedLesson.number}. {foundedLesson.name}
+                                  {foundedLesson.number}.{" "}
+                                  {foundedLesson.type === "Военная подготовка"
+                                    ? "СВО"
+                                    : foundedLesson.name}
                                 </div>
                                 <div>{foundedLesson.pos}</div>
                                 <div>
