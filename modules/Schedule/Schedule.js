@@ -249,7 +249,7 @@ const Schedule = () => {
                                     ? "СВО"
                                     : foundedLesson.name}
                                 </div>
-                                <div>{foundedLesson.pos === "- Асинхронно" ? "Онлайн" : foundedLesson.pos}</div>
+                                <div>{foundedLesson.pos === " - Асинхронно" ? "Онлайн" : foundedLesson.pos}</div>
                                 <div>
                                   {foundedLesson.teacher === ""
                                     ? "Преподаватель не найден"
