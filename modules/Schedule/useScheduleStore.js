@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const useScheduleStore = create(
   persist(
     (set, get) => ({
-      selectedGroup: "301",
+      selectedGroup: "401",
       selectedWeek: (
         moment().diff(moment("2025-09-01"), "weeks") + 1
       ).toString(),

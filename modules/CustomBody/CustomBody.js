@@ -9,11 +9,18 @@ const inter = Inter({ subsets: ["cyrillic"] });
 export default function CustomBody({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const getSchedule = useScheduleStore((store) => store.getSchedule);
+  const selectedGroup = useScheduleStore((store) => store.selectedGroup);
+  const setSelectedGroup = useScheduleStore((store) => store.setSelectedGroup);
   useEffect(() => {
     getSchedule().then(() => {
       setIsLoading(false);
     });
-  }, []);
+  }, [getSchedule]);
+  useEffect(() => {
+    if (!selectedGroup.startsWith("4")) {
+      setSelectedGroup("401");
+    }
+  }, [selectedGroup, setSelectedGroup]);
   if (isLoading) {
     return (
       <body className={inter.className}>

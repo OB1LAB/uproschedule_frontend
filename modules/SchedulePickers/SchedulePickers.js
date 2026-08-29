@@ -38,6 +38,8 @@ const SchedulePickers = () => {
     }
   };
 
+  console.log(selectedGroup, schedule[selectedGroup]);
+
   return (
     <div className={styles.pickers}>
       <div className={styles.desktop}>
