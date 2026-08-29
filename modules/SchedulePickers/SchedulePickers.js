@@ -68,7 +68,7 @@ const SchedulePickers = () => {
         onChange={(value) => {
           if (!Object.keys(schedule[value]).includes(selectedWeek)) {
             setSelectedWeek(
-              (moment().diff(moment("2025-09-01"), "weeks") + 1).toString(),
+              (moment().diff(moment("2026-09-01"), "weeks") + 1).toString(),
             );
           }
           setSelectedGroup(value);
@@ -79,7 +79,7 @@ const SchedulePickers = () => {
         cleanable={false}
         searchable={false}
         data={Object.keys(schedule[selectedGroup]).map((item) => {
-          const monday = moment("2025-09-01")
+          const monday = moment("2026-09-01")
             .add(item - 1, "weeks")
             .startOf("isoWeek");
           return {

@@ -131,7 +131,7 @@ const Schedule = () => {
               <div key={item} className={styles.weekLessons}>
                 <div className={styles.date}>
                   {item}{" "}
-                  {moment("2025-09-01")
+                  {moment("2026-09-01")
                     .add(selectedWeek - 1, "weeks")
                     .startOf("isoWeek")
                     .add(
@@ -172,7 +172,7 @@ const Schedule = () => {
           ) {
             lessonsNumber.push(lessonNumber);
           }
-          const stringDate = moment("2025-09-01")
+          const stringDate = moment("2026-09-01")
             .add(selectedWeek - 1, "weeks")
             .startOf("isoWeek")
             .add(
@@ -249,7 +249,11 @@ const Schedule = () => {
                                     ? "СВО"
                                     : foundedLesson.name}
                                 </div>
-                                <div>{foundedLesson.pos === " - Асинхронно" ? "Онлайн" : foundedLesson.pos}</div>
+                                <div>
+                                  {foundedLesson.pos === " - Асинхронно"
+                                    ? "Онлайн"
+                                    : foundedLesson.pos}
+                                </div>
                                 <div>
                                   {foundedLesson.teacher === ""
                                     ? "Преподаватель не найден"
